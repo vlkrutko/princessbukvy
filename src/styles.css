@@ -1,0 +1,422 @@
+:root {
+  --bg: #1e0535;
+  --card: #5a1e80;
+  --card-edge: #3a0d55;
+  --vowel: #ff6b9d;
+  --cons: #9ecfff;
+  --ok: #4caf88;
+  --accent: #ffd700;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(ellipse at 25% 0%, #7b2fbe 0%, #2d0a4e 50%, #1a0030 100%) fixed;
+  color: #fff;
+  font-family: ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', system-ui, sans-serif;
+  font-weight: 700;
+  overflow: hidden;
+  /* ребёнок жмёт всей ладонью: без выделения текста, лупы и зума по двойному тапу */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* блёстки — рассыпанные искры вместо звёздного неба */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 30px 40px, #ffcef3, transparent),
+    radial-gradient(1.5px 1.5px at 110px 130px, #ffd700, transparent),
+    radial-gradient(2px 2px at 180px 65px, #fff, transparent),
+    radial-gradient(1px 1px at 250px 185px, #ffcef3, transparent),
+    radial-gradient(1.5px 1.5px at 75px 225px, #ffd700, transparent),
+    radial-gradient(1px 1px at 145px 275px, #d4a8ff, transparent),
+    radial-gradient(2px 2px at 55px 310px, #fff, transparent),
+    radial-gradient(1px 1px at 200px 340px, #ffcef3, transparent);
+  background-size: 290px 370px;
+  opacity: 0.6;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+.screen {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3vmin;
+  padding: max(3vmin, env(safe-area-inset-top)) 4vmin max(3vmin, env(safe-area-inset-bottom));
+}
+
+.screen.center {
+  justify-content: center;
+}
+
+.title {
+  font-size: 8.5vmin;
+}
+
+.total {
+  font-size: 6vmin;
+  color: var(--accent);
+}
+
+.dim {
+  opacity: 0.2;
+}
+
+.row {
+  display: flex;
+  gap: 5vmin;
+}
+
+/* ── карта этапов ── */
+.kingdoms {
+  flex: 1;
+  display: grid;
+  /* пять этапов: альбомная — один ряд; книжная — ряд 3+2 */
+  grid-template-columns: repeat(5, 20vmin);
+  align-content: center;
+  justify-content: center;
+  gap: 4vmin 1.5vmin;
+}
+
+@media (orientation: portrait) {
+  .kingdoms {
+    grid-template-columns: repeat(3, 28vmin);
+  }
+}
+
+.kingdom {
+  padding: 2vmin 1vmin;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vmin;
+}
+
+.kingdom-pic {
+  font-size: 12.5vmin;
+  line-height: 1.1;
+}
+
+.kingdom:not(.locked) .kingdom-pic {
+  animation: float 4s ease-in-out infinite;
+}
+
+.kingdom:nth-child(2n) .kingdom-pic {
+  animation-delay: -2s;
+}
+
+.kingdom-title {
+  font-size: 4vmin;
+}
+
+.kingdom-stars {
+  font-size: 3.2vmin;
+  color: var(--accent);
+}
+
+.kingdom.locked {
+  opacity: 0.4;
+}
+
+/* ── верхняя полоса ── */
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3vmin;
+}
+
+.topbar h2 {
+  font-size: 7vmin;
+}
+
+.round {
+  width: 11vmin;
+  height: 11vmin;
+  flex: none;
+  border-radius: 50%;
+  background: var(--card);
+  font-size: 5.5vmin;
+}
+
+.round.ghost {
+  visibility: hidden;
+}
+
+.dots {
+  display: flex;
+  gap: 1.6vmin;
+}
+
+.dot {
+  width: 3vmin;
+  height: 3vmin;
+  border-radius: 50%;
+  background: var(--card);
+}
+
+.dot.done {
+  background: var(--accent);
+}
+
+.dot.current {
+  background: #fff;
+}
+
+/* ── выбор уровня ── */
+.levels {
+  flex: 1;
+  width: 100%;
+  max-width: 110vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5vmin;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  gap: 4vmin;
+  padding: 2.2vmin 4vmin;
+  border-radius: 4vmin;
+  background: var(--card);
+  box-shadow: 0 1vmin 0 var(--card-edge);
+}
+
+.level-num {
+  font-size: 8vmin;
+  color: var(--accent);
+}
+
+.level-label {
+  flex: 1;
+  text-align: left;
+  font-size: 4.5vmin;
+}
+
+.level-stars {
+  font-size: 5vmin;
+}
+
+/* ── задание ── */
+.task {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.v {
+  color: var(--vowel);
+}
+
+.c {
+  color: var(--cons);
+}
+
+.tile,
+.choice {
+  min-width: 24vmin;
+  height: 24vmin;
+  padding: 0 4vmin;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5vmin;
+  background: var(--card);
+  box-shadow: 0 1.2vmin 0 var(--card-edge);
+  font-size: 14vmin;
+  line-height: 1;
+}
+
+.tile.big {
+  min-width: 40vmin;
+  height: 34vmin;
+  font-size: 22vmin;
+}
+
+.choices,
+.dock,
+.word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4vmin;
+}
+
+.word {
+  gap: 1.5vmin;
+}
+
+.choices {
+  flex-wrap: wrap;
+}
+
+/* ── фразы и истории ── */
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2vmin;
+  max-width: 125vmin;
+}
+
+.tile.sm {
+  min-width: 0;
+  height: 15vmin;
+  padding: 0 2.5vmin;
+  border-radius: 3.5vmin;
+  font-size: 8.5vmin;
+}
+
+/* слоги после нажатия на слово */
+.syl + .syl {
+  margin-left: 1.6vmin;
+  padding-left: 1.6vmin;
+  border-left: 0.5vmin solid rgba(255, 255, 255, 0.3);
+}
+
+.emoji.sm {
+  font-size: 8.5vmin;
+  white-space: nowrap;
+}
+
+.page-pic {
+  font-size: 17vmin;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.page-pic.hidden {
+  opacity: 0.25;
+}
+
+.question {
+  background: none;
+  font-size: 6.5vmin;
+  text-align: center;
+  padding: 0 4vmin;
+}
+
+.plus {
+  font-size: 12vmin;
+  opacity: 0.6;
+}
+
+.choice:active,
+.tile:active,
+.go:active {
+  transform: translateY(0.6vmin);
+}
+
+.choice.ok {
+  background: var(--ok);
+  animation: pop 0.45s ease-out;
+}
+
+.choice.wrong {
+  opacity: 0.3;
+  animation: shake 0.35s;
+}
+
+.emoji {
+  font-size: 15vmin;
+}
+
+.prompt {
+  position: relative;
+  background: none;
+  padding: 0 6vmin;
+}
+
+.prompt-pic {
+  font-size: 26vmin;
+  line-height: 1.1;
+}
+
+.ear {
+  position: absolute;
+  right: 0;
+  bottom: 1vmin;
+  font-size: 7vmin;
+}
+
+/* кнопка «поехали» — золотая, как принцесская звезда */
+.go {
+  width: 22vmin;
+  height: 22vmin;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1.2vmin 0 #b8860b;
+  font-size: 11vmin;
+}
+
+.finish-stars {
+  font-size: 20vmin;
+  animation: pop 0.6s ease-out;
+}
+
+.pop {
+  animation: pop 0.45s ease-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-1.5vmin);
+  }
+  75% {
+    transform: translateX(1.5vmin);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-1.5vmin);
+  }
+}
