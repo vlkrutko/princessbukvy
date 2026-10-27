@@ -2,10 +2,13 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import {
   buildTasks,
   firstLetterPrompt,
+  NO,
   PRAISE,
+  scramble,
   spoken,
   syllabify,
   VOWELS,
+  YES,
   type StageId,
   type Task,
 } from './content'
@@ -32,31 +35,35 @@ function Pic({ pic }: { pic: string }) {
   return <span className={'emoji' + (combo ? ' sm' : '')}>{pic}</span>
 }
 
-/** Строка слов. Нажатие на слово — подсказка: оно делится на слоги и произносится. */
-function WordsLine({ words }: { words: string[] }) {
+/** Строка слов. Нажатие на слово — подсказка: оно делится на слоги и произносится. gap — пустое место вместо слова. */
+function WordsLine({ words, gap }: { words: string[]; gap?: number }) {
   const [split, setSplit] = useState<number[]>([])
   return (
     <div className="line">
-      {words.map((w, k) => (
-        <button
-          key={k}
-          className="tile sm"
-          onClick={() => {
-            setSplit((s) => (s.includes(k) ? s : [...s, k]))
-            say(spoken(w), 0.7)
-          }}
-        >
-          {split.includes(k) ? (
-            syllabify(w).map((s, n) => (
-              <span key={n} className="syl">
-                <Colored text={s} />
-              </span>
-            ))
-          ) : (
-            <Colored text={w} />
-          )}
-        </button>
-      ))}
+      {words.map((w, k) =>
+        k === gap ? (
+          <span key={k} className="tile sm slot" />
+        ) : (
+          <button
+            key={k}
+            className="tile sm"
+            onClick={() => {
+              setSplit((s) => (s.includes(k) ? s : [...s, k]))
+              say(spoken(w), 0.7)
+            }}
+          >
+            {split.includes(k) ? (
+              syllabify(w).map((s, n) => (
+                <span key={n} className="syl">
+                  <Colored text={s} />
+                </span>
+              ))
+            ) : (
+              <Colored text={w} />
+            )}
+          </button>
+        ),
+      )}
     </div>
   )
 }
@@ -76,10 +83,12 @@ interface ChoicesProps {
   onMistake: () => void
   onSolved: () => void
   onCorrect?: () => void
+  /** words — варианты-слова: шрифт мельче, чтобы длинные слова влезли */
+  className?: string
 }
 
 /** Варианты ответа: неверный гаснет и можно пробовать дальше, верный ведёт к следующему заданию. */
-function Choices({ options, answer, render, onMistake, onSolved, onCorrect }: ChoicesProps) {
+function Choices({ options, answer, render, onMistake, onSolved, onCorrect, className }: ChoicesProps) {
   const [wrong, setWrong] = useState<string[]>([])
   const [solved, setSolved] = useState(false)
 
@@ -98,7 +107,7 @@ function Choices({ options, answer, render, onMistake, onSolved, onCorrect }: Ch
   }
 
   return (
-    <div className="choices">
+    <div className={'choices' + (className ? ' ' + className : '')}>
       {options.map((o) => (
         <button
           key={o}
@@ -253,6 +262,118 @@ function StoryPage({ t, onSolved }: TaskProps<'page'>) {
   )
 }
 
+// Сборка по картинке: верная следующая часть встаёт на место, неверная качается.
+// Собранное слово (фразу) произносим целиком только в конце — иначе можно не читать.
+function Build({ t, onMistake, onSolved }: TaskProps<'build'>) {
+  const pool = useMemo(() => scramble(t.parts), [t])
+  const [used, setUsed] = useState<number[]>([])
+  const [shaking, setShaking] = useState<number | null>(null)
+  const done = used.length === t.parts.length
+  const size = t.phrase ? ' sm' : ''
+
+  const tap = (k: number) => {
+    if (done || used.includes(k)) return
+    if (pool[k] !== t.parts[used.length]) {
+      bad()
+      onMistake()
+      setShaking(k)
+      setTimeout(() => setShaking(null), 400)
+      return
+    }
+    const next = [...used, k]
+    setUsed(next)
+    if (next.length === t.parts.length) {
+      good()
+      say(t.parts.join(t.phrase ? ' ' : '').toLowerCase())
+      setTimeout(onSolved, 1800)
+    } else if (!t.phrase && pool[k].length > 1) {
+      say(pool[k].toLowerCase(), 0.7) // отдельную букву не озвучиваем: синтезатор назовёт её «тэ», а не звук
+    }
+  }
+
+  return (
+    <>
+      <div className="page-pic">{t.pic}</div>
+      <div className={t.phrase ? 'line' : 'word'}>
+        {t.parts.map((part, k) => (
+          <span key={k} className={'tile slot' + size + (k < used.length ? ' filled pop' : '')}>
+            {k < used.length && <Colored text={part} />}
+          </span>
+        ))}
+      </div>
+      <div className={t.phrase ? 'line' : 'word'}>
+        {pool.map((part, k) => (
+          <button
+            key={k}
+            className={'tile' + size + (used.includes(k) ? ' gone' : '') + (shaking === k ? ' shake' : '')}
+            disabled={used.includes(k)}
+            onClick={() => tap(k)}
+          >
+            <Colored text={part} />
+          </button>
+        ))}
+      </div>
+    </>
+  )
+}
+
+function PickWord({ t, onMistake, onSolved }: TaskProps<'pickWord'>) {
+  return (
+    <>
+      <div className="prompt-pic">{t.pic}</div>
+      <Choices
+        className="words"
+        options={t.options}
+        answer={t.answer}
+        render={(o) => <Colored text={o} />}
+        onMistake={onMistake}
+        onSolved={onSolved}
+        onCorrect={() => say(t.answer.toLowerCase())}
+      />
+    </>
+  )
+}
+
+function Gap({ t, onMistake, onSolved }: TaskProps<'gap'>) {
+  const [filled, setFilled] = useState(false)
+  return (
+    <>
+      <div className="page-pic">{t.pic}</div>
+      <WordsLine words={t.words} gap={filled ? undefined : t.gap} />
+      <Choices
+        className="words"
+        options={t.options}
+        answer={t.words[t.gap]}
+        render={(o) => <Colored text={o} />}
+        onMistake={onMistake}
+        onSolved={onSolved}
+        onCorrect={() => {
+          setFilled(true)
+          say(t.words.join(' ').toLowerCase())
+        }}
+      />
+    </>
+  )
+}
+
+// Подходит ли картинка к фразе: 👍 или 👎.
+function YesNo({ t, onMistake, onSolved }: TaskProps<'yesNo'>) {
+  return (
+    <>
+      <div className="page-pic">{t.pic}</div>
+      <WordsLine words={t.words} />
+      <Choices
+        options={[YES, NO]}
+        answer={t.answer}
+        render={(o) => <span className="emoji">{o}</span>}
+        onMistake={onMistake}
+        onSolved={onSolved}
+        onCorrect={() => say(t.words.join(' ').toLowerCase())}
+      />
+    </>
+  )
+}
+
 function Question({ t, onMistake, onSolved }: TaskProps<'question'>) {
   const ask = () => say(t.text)
   useSayOnMount(ask)
@@ -342,6 +463,10 @@ export function Play({ stage, level, onExit }: { stage: StageId; level: number; 
         {t.kind === 'phrase' && <ReadPhrase t={t} {...props} />}
         {t.kind === 'page' && <StoryPage t={t} {...props} />}
         {t.kind === 'question' && <Question t={t} {...props} />}
+        {t.kind === 'build' && <Build t={t} {...props} />}
+        {t.kind === 'pickWord' && <PickWord t={t} {...props} />}
+        {t.kind === 'gap' && <Gap t={t} {...props} />}
+        {t.kind === 'yesNo' && <YesNo t={t} {...props} />}
       </div>
     </div>
   )

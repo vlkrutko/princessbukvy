@@ -1,6 +1,6 @@
 // Учебный материал и сборка заданий.
 // Тематика: диснеевские принцессы.
-// Этапы: Звуки → Слоги → Слова (4 уровня) → Фразы (5 уровней) → Истории (5 историй).
+// Этапы: Звуки → Слоги → Слова (6 уровней) → Фразы (5 уровней) → Истории (10 историй).
 // Чтобы добавить слово или уровень — правьте списки ниже, код игр трогать не нужно.
 
 export type StageId = 'sounds' | 'syllables' | 'words' | 'phrases' | 'stories'
@@ -111,6 +111,28 @@ const WORDS: { syl: string[]; pic: string }[][] = [
     { syl: ['ЧУ', 'ДЕ', 'СА'], pic: '✨' },
     { syl: ['ВОЛ', 'ШЕБ', 'НИК'], pic: '🪄' },
   ],
+  // Уровень 5: друзья принцесс — звери и птицы
+  [
+    { syl: ['КО', 'ТЁ', 'НОК'], pic: '🐱' },
+    { syl: ['ЛЯ', 'ГУШ', 'КА'], pic: '🐸' },
+    { syl: ['ЗАЙ', 'ЧИК'], pic: '🐰' },
+    { syl: ['ЛЕ', 'БЕДЬ'], pic: '🦢' },
+    { syl: ['ПО', 'ПУ', 'ГАЙ'], pic: '🦜' },
+    { syl: ['Е', 'ДИ', 'НО', 'РОГ'], pic: '🦄' },
+    { syl: ['О', 'ЛЕНЬ'], pic: '🦌' },
+    { syl: ['МЫШ', 'КА'], pic: '🐭' },
+  ],
+  // Уровень 6: подарки и угощения бала (ТОРТ и КЛЮЧ — один слог, собираются по буквам)
+  [
+    { syl: ['ТЫК', 'ВА'], pic: '🎃' },
+    { syl: ['КОЛЬ', 'ЦО'], pic: '💍' },
+    { syl: ['СВЕ', 'ЧА'], pic: '🕯️' },
+    { syl: ['ЗВЕЗ', 'ДА'], pic: '⭐' },
+    { syl: ['ПО', 'ДА', 'РОК'], pic: '🎁' },
+    { syl: ['ЯБ', 'ЛО', 'КО'], pic: '🍎' },
+    { syl: ['ТОРТ'], pic: '🎂' },
+    { syl: ['КЛЮЧ'], pic: '🔑' },
+  ],
 ]
 
 // ── Этап 4: фразы ────────────────────────────────────────────────────────────
@@ -127,6 +149,10 @@ const PHRASES: { text: string; pic: string; wrong?: string[] }[][] = [
     { text: 'ЭТО ДРАКОН', pic: '🐉' },
     { text: 'ТУТ ПРИНЦ', pic: '🤴' },
     { text: 'ВОТ ПЛАТЬЕ', pic: '👗' },
+    { text: 'ВОТ ЛУНА', pic: '🌙' },
+    { text: 'ЭТО ТЫКВА', pic: '🎃' },
+    { text: 'ТАМ БАШНЯ', pic: '🗼' },
+    { text: 'ВОТ ЗЕРКАЛО', pic: '🪞' },
   ],
   // Уровень 2: 3-4 слова (кто где / что делает)
   [
@@ -138,6 +164,10 @@ const PHRASES: { text: string; pic: string; wrong?: string[] }[][] = [
     { text: 'РЫБА В МОРЕ', pic: '🐟🌊', wrong: ['🐟🌳', '🦈🌊'] },
     { text: 'ЗВЕЗДА НАД ЗАМКОМ', pic: '⭐🏰', wrong: ['⭐🌊', '🌙🏰'] },
     { text: 'РОЗА У ПРИНЦЕССЫ', pic: '🌹👸', wrong: ['🌹🧚', '💜👸'] },
+    { text: 'ТИГР У ЖАСМИН', pic: '🐯👸', wrong: ['🐯🌊', '🦁👸'] },
+    { text: 'ЛЕБЕДЬ НА ОЗЕРЕ', pic: '🦢🌊', wrong: ['🦢🏰', '🦆🌊'] },
+    { text: 'ЛЯГУШКА В ПРУДУ', pic: '🐸🌊', wrong: ['🐸🌳', '🐟🌊'] },
+    { text: 'ПТИЦА НА ДЕРЕВЕ', pic: '🐦🌳', wrong: ['🐦🌊', '🦉🌳'] },
   ],
   // Уровень 3: 4-5 слов
   [
@@ -149,6 +179,10 @@ const PHRASES: { text: string; pic: string; wrong?: string[] }[][] = [
     { text: 'МУЛАН ДЕРЖИТ ЛУК', pic: '🏹✨', wrong: ['🏹🐉', '🗡️✨'] },
     { text: 'АРИЭЛЬ НАШЛА РАКОВИНУ', pic: '🧜🐚', wrong: ['🧜🐟', '👸🐚'] },
     { text: 'КАРЕТА ЕДЕТ К ЗАМКУ', pic: '🎠🏰', wrong: ['🎠🌊', '🐴🏰'] },
+    { text: 'БЕЛОСНЕЖКА ЕСТ ЯБЛОКО', pic: '👸🍎', wrong: ['👸🍞', '🧚🍎'] },
+    { text: 'МОАНА ПЛЫВЁТ ПО МОРЮ', pic: '🛶🌊', wrong: ['🛶🌳', '🐟🌊'] },
+    { text: 'ТИАНА ВАРИТ СУП', pic: '👸🍲', wrong: ['👸📖', '🐸🍲'] },
+    { text: 'ЭЛЬЗА ЛЕПИТ СНЕГОВИКА', pic: '⛄❄️', wrong: ['⛄🔥', '🌳❄️'] },
   ],
   // Уровень 4: 5-6 слов
   [
@@ -160,6 +194,10 @@ const PHRASES: { text: string; pic: string; wrong?: string[] }[][] = [
     { text: 'РАПУНЦЕЛЬ ВИДИТ ОГНИ С БАШНИ', pic: '💛🗼✨', wrong: ['💛🗼🌊', '💜🗼✨'] },
     { text: 'АРИЭЛЬ ОТДАЛА ГОЛОС ВЕДЬМЕ', pic: '🧜✨', wrong: ['🧜🌊', '🧜🐚'] },
     { text: 'ФЕЯ ПРЕВРАЩАЕТ ТЫКВУ В КАРЕТУ', pic: '🧚🎠', wrong: ['🧚🏰', '🌟🎠'] },
+    { text: 'ЭЛЬЗА ПОСТРОИЛА БОЛЬШОЙ ЛЕДЯНОЙ ЗАМОК', pic: '❄️🏰', wrong: ['🔥🏰', '❄️🌳'] },
+    { text: 'ТИАНА ВСТРЕТИЛА ЛЯГУШКУ НА БАЛУ', pic: '👸🐸', wrong: ['👸🐟', '🧚🐸'] },
+    { text: 'МОАНА ПЛЫВЁТ НА ЛОДКЕ ПО ОКЕАНУ', pic: '🛶🌊', wrong: ['🚗🌊', '🛶🌳'] },
+    { text: 'ЖАСМИН И ТИГР ГУЛЯЮТ В САДУ', pic: '👸🐯🌺', wrong: ['👸🐯🌊', '👸🐻🌺'] },
   ],
   // Уровень 5: длинные предложения (6-8 слов)
   [
@@ -171,18 +209,26 @@ const PHRASES: { text: string; pic: string; wrong?: string[] }[][] = [
     { text: 'НА БАЛУ ВСЕ ЛЮБОВАЛИСЬ ЗОЛУШКОЙ В ПЛАТЬЕ', pic: '💃👗✨', wrong: ['💃👑✨', '💃👗🌊'] },
     { text: 'РАПУНЦЕЛЬ СПУСТИЛАСЬ С БАШНИ И УВИДЕЛА МИР', pic: '💛🗼🌟', wrong: ['💛🗼🌊', '💜🗼🌟'] },
     { text: 'БЕЛЛЬ УВИДЕЛА ЧТО ЧУДОВИЩЕ НА САМОМ ДЕЛЕ ДОБРОЕ', pic: '👸🐻💙', wrong: ['👸🐻🏰', '🧚🐻💙'] },
+    { text: 'ЗЛАЯ КОРОЛЕВА ДАЛА БЕЛОСНЕЖКЕ ОТРАВЛЕННОЕ ЯБЛОКО', pic: '👿🍎', wrong: ['👿🌹', '🧚🍎'] },
+    { text: 'СЕМЬ ГНОМОВ КАЖДОЕ УТРО ХОДИЛИ НА РАБОТУ', pic: '⛏️🌅', wrong: ['⛏️🌙', '🎵🌅'] },
+    { text: 'ЭЛЬЗА ВЗМАХНУЛА РУКОЙ И ВСЁ ПОКРЫЛОСЬ СНЕГОМ', pic: '❄️✨', wrong: ['🔥✨', '🌸✨'] },
+    { text: 'МОАНА НЕ БОИТСЯ ВЫСОКИХ ВОЛН В ОКЕАНЕ', pic: '🛶🌊', wrong: ['🛶🌳', '🏰🌊'] },
   ],
 ]
 
 // ── Этап 5: короткие истории ─────────────────────────────────────────────────
-// По предложению на экран; в конце один вопрос на понимание.
+// По предложению на экран; в конце три вопроса на понимание.
+interface Question {
+  ask: string
+  answer: string
+  wrong: string[]
+}
+
 interface Story {
   title: string
   pic: string
   pages: { text: string; pic: string }[]
-  ask: string
-  answer: string
-  wrong: string[]
+  questions: Question[]
 }
 
 const STORIES: Story[] = [
@@ -196,9 +242,11 @@ const STORIES: Story[] = [
       { text: 'ОНА ВИДИТ КОРАБЛЬ.', pic: '🧜🚢' },
       { text: 'НА КОРАБЛЕ СТОИТ ПРИНЦ.', pic: '🤴🚢' },
     ],
-    ask: 'Кто стоит на корабле?',
-    answer: '🤴',
-    wrong: ['🧚', '👸'],
+    questions: [
+      { ask: 'Где живёт Ариэль?', answer: '🌊', wrong: ['🏰', '🌳'] },
+      { ask: 'Что любит делать Ариэль?', answer: '🎵', wrong: ['📖', '😴'] },
+      { ask: 'Кто стоит на корабле?', answer: '🤴', wrong: ['🧚', '👸'] },
+    ],
   },
   {
     title: 'ЗОЛУШКА НА БАЛУ',
@@ -211,9 +259,11 @@ const STORIES: Story[] = [
       { text: 'КАРЕТА ВЕЗЁТ ЗОЛУШКУ НА БАЛ.', pic: '🎠💃' },
       { text: 'НА БАЛУ ПРИНЦ ТАНЦУЕТ С НЕЙ.', pic: '🤴💃' },
     ],
-    ask: 'Что сшила фея Золушке?',
-    answer: '👗',
-    wrong: ['👑', '👠'],
+    questions: [
+      { ask: 'Кто пришёл на помощь?', answer: '🧚', wrong: ['🤴', '🐉'] },
+      { ask: 'Что сшила фея Золушке?', answer: '👗', wrong: ['👑', '👠'] },
+      { ask: 'Что везёт Золушку на бал?', answer: '🎠', wrong: ['🚢', '🛶'] },
+    ],
   },
   {
     title: 'БЕЛЛЬ И ЧУДОВИЩЕ',
@@ -226,9 +276,11 @@ const STORIES: Story[] = [
       { text: 'ТАМ ОГРОМНАЯ БИБЛИОТЕКА!', pic: '📚✨' },
       { text: 'БЕЛЛЬ ОЧЕНЬ РАДА.', pic: '👸😊' },
     ],
-    ask: 'Что любит делать Белль?',
-    answer: '📖',
-    wrong: ['💃', '🌹'],
+    questions: [
+      { ask: 'Что любит делать Белль?', answer: '📖', wrong: ['💃', '🌹'] },
+      { ask: 'Кто живёт в замке?', answer: '🐻', wrong: ['🐉', '🧜'] },
+      { ask: 'Белль рада или грустит?', answer: '😊', wrong: ['😢', '😴'] },
+    ],
   },
   {
     title: 'РАПУНЦЕЛЬ И БАШНЯ',
@@ -241,9 +293,11 @@ const STORIES: Story[] = [
       { text: 'ОН ВЗЯЛ РАПУНЦЕЛЬ С СОБОЙ.', pic: '🤴💛' },
       { text: 'РАПУНЦЕЛЬ УВИДЕЛА МИР!', pic: '💛🌟' },
     ],
-    ask: 'Где живёт Рапунцель?',
-    answer: '🗼',
-    wrong: ['🏰', '🌊'],
+    questions: [
+      { ask: 'Где живёт Рапунцель?', answer: '🗼', wrong: ['🏰', '🌊'] },
+      { ask: 'Что она видит раз в год?', answer: '🕯️', wrong: ['🐉', '🌈'] },
+      { ask: 'Кто залез в башню?', answer: '🤴', wrong: ['🧚', '🐻'] },
+    ],
   },
   {
     title: 'АВРОРА И СОН',
@@ -256,16 +310,108 @@ const STORIES: Story[] = [
       { text: 'ПРИНЦ НАШЁЛ СПЯЩУЮ АВРОРУ.', pic: '🤴💜' },
       { text: 'ОН ПОЦЕЛОВАЛ ЕЁ И ОНА ПРОСНУЛАСЬ.', pic: '🤴💜✨' },
     ],
-    ask: 'Что случилось с Авророй?',
-    answer: '😴',
-    wrong: ['💃', '📖'],
+    questions: [
+      { ask: 'Где гуляла Аврора?', answer: '🌳', wrong: ['🌊', '🏰'] },
+      { ask: 'Что случилось с Авророй?', answer: '😴', wrong: ['💃', '📖'] },
+      { ask: 'Кто разбудил Аврору?', answer: '🤴', wrong: ['🧚', '🐉'] },
+    ],
+  },
+  {
+    title: 'БЕЛОСНЕЖКА И ГНОМЫ',
+    pic: '🍎',
+    pages: [
+      { text: 'БЕЛОСНЕЖКА УБЕЖАЛА В ЛЕС.', pic: '👸🌳' },
+      { text: 'В ЛЕСУ СТОЯЛ МАЛЕНЬКИЙ ДОМИК.', pic: '🏠🌳' },
+      { text: 'ТАМ ЖИЛИ СЕМЬ ГНОМОВ.', pic: '🏠⛏️' },
+      { text: 'ГНОМЫ ПОДРУЖИЛИСЬ С НЕЙ.', pic: '⛏️👸' },
+      { text: 'ЗЛАЯ КОРОЛЕВА ДАЛА ЕЙ ЯБЛОКО.', pic: '👿🍎' },
+      { text: 'БЕЛОСНЕЖКА УСНУЛА, НО ПРИНЦ ЕЁ РАЗБУДИЛ.', pic: '🤴👸✨' },
+    ],
+    questions: [
+      { ask: 'Где стоял домик?', answer: '🌳', wrong: ['🌊', '🏰'] },
+      { ask: 'Сколько было гномов?', answer: '7️⃣', wrong: ['3️⃣', '5️⃣'] },
+      { ask: 'Что дала королева?', answer: '🍎', wrong: ['🌹', '👗'] },
+    ],
+  },
+  {
+    title: 'ЖАСМИН И ТИГР',
+    pic: '🐯',
+    pages: [
+      { text: 'ЖАСМИН ЖИВЁТ ВО ДВОРЦЕ.', pic: '👸🏰' },
+      { text: 'С НЕЙ ЖИВЁТ ТИГР.', pic: '👸🐯' },
+      { text: 'ОДНАЖДЫ ПРИШЁЛ АЛАДДИН.', pic: '🧑🏰' },
+      { text: 'У НЕГО БЫЛ ВОЛШЕБНЫЙ КОВЁР.', pic: '🧑✨' },
+      { text: 'ОНИ ПОЛЕТЕЛИ НАД ГОРОДОМ.', pic: '🌙🏙️' },
+      { text: 'ЖАСМИН ВИДИТ ЗВЁЗДЫ.', pic: '👸⭐' },
+    ],
+    questions: [
+      { ask: 'Где живёт Жасмин?', answer: '🏰', wrong: ['🗼', '🌊'] },
+      { ask: 'Кто живёт с Жасмин?', answer: '🐯', wrong: ['🐻', '🐉'] },
+      { ask: 'Что видит Жасмин?', answer: '⭐', wrong: ['🌹', '📖'] },
+    ],
+  },
+  {
+    title: 'СМЕЛАЯ МУЛАН',
+    pic: '🏹',
+    pages: [
+      { text: 'МУЛАН ЖИВЁТ С ПАПОЙ.', pic: '🏹👴' },
+      { text: 'ПАПА СТАРЫЙ И БОЛЬНОЙ.', pic: '👴🤒' },
+      { text: 'МУЛАН ПОШЛА В АРМИЮ ВМЕСТО НЕГО.', pic: '🏹⚔️' },
+      { text: 'С НЕЙ ПОШЁЛ МАЛЕНЬКИЙ ДРАКОН.', pic: '🐉✨' },
+      { text: 'МУЛАН БЫЛА ОЧЕНЬ СМЕЛОЙ.', pic: '🏹💪' },
+      { text: 'ВСЕ ГОРДЯТСЯ МУЛАН!', pic: '🏹🎉' },
+    ],
+    questions: [
+      { ask: 'С кем живёт Мулан?', answer: '👴', wrong: ['🧚', '🤴'] },
+      { ask: 'Кто пошёл с Мулан?', answer: '🐉', wrong: ['🐯', '🐴'] },
+      { ask: 'Какая Мулан?', answer: '💪', wrong: ['😴', '😢'] },
+    ],
+  },
+  {
+    title: 'МОАНА И ОКЕАН',
+    pic: '🛶',
+    pages: [
+      { text: 'МОАНА ЖИВЁТ НА ОСТРОВЕ.', pic: '🏝️' },
+      { text: 'ОНА ОЧЕНЬ ЛЮБИТ МОРЕ.', pic: '👧🌊' },
+      { text: 'МОАНА ВЗЯЛА ЛОДКУ.', pic: '👧🛶' },
+      { text: 'ОНА ПОПЛЫЛА ПО ОКЕАНУ.', pic: '🛶🌊' },
+      { text: 'С НЕЙ ПЛЫЛ ПЕТУХ.', pic: '🐓🛶' },
+      { text: 'МОАНА СПАСЛА СВОЙ ОСТРОВ!', pic: '👧🏝️✨' },
+    ],
+    questions: [
+      { ask: 'Где живёт Моана?', answer: '🏝️', wrong: ['🗼', '🏰'] },
+      { ask: 'На чём поплыла Моана?', answer: '🛶', wrong: ['🎠', '🐴'] },
+      { ask: 'Кто плыл с Моаной?', answer: '🐓', wrong: ['🐯', '🐟'] },
+    ],
+  },
+  {
+    title: 'ЭЛЬЗА И АННА',
+    pic: '❄️',
+    pages: [
+      { text: 'ЭЛЬЗА УМЕЕТ ДЕЛАТЬ СНЕГ.', pic: '👸❄️' },
+      { text: 'ЕЁ СЕСТРУ ЗОВУТ АННА.', pic: '👸👧' },
+      { text: 'ЭЛЬЗА УШЛА В ГОРЫ.', pic: '👸🏔️' },
+      { text: 'ТАМ ОНА ПОСТРОИЛА ЛЕДЯНОЙ ЗАМОК.', pic: '❄️🏰' },
+      { text: 'АННА НАШЛА СЕСТРУ.', pic: '👧👸' },
+      { text: 'СЕСТРЫ ОБНЯЛИСЬ И СНЕГ РАСТАЯЛ.', pic: '🤗☀️' },
+    ],
+    questions: [
+      { ask: 'Что умеет делать Эльза?', answer: '❄️', wrong: ['🔥', '🎵'] },
+      { ask: 'Куда ушла Эльза?', answer: '🏔️', wrong: ['🌊', '🌳'] },
+      { ask: 'Что построила Эльза?', answer: '🏰', wrong: ['🗼', '🏠'] },
+    ],
   },
 ]
 
 export const STAGES: Stage[] = [
   { id: 'sounds', title: 'Звуки', pic: '🌹', levels: ['А О У И М Н Л Р', 'С К Т П Б Д В З', 'Ш Ж Х Ф Ц Ч Я Ё'] },
   { id: 'syllables', title: 'Слоги', pic: '👑', levels: ['М Н Л Р', 'С К Т П', 'Б Д Г В З', 'Ш Ж Х Ф', 'Я Е Ё Ю'] },
-  { id: 'words', title: 'Слова', pic: '🏰', levels: ['РО-ЗА', 'КО-РО-НА', 'ЗА-МОК', 'А-РИ-ЭЛЬ'] },
+  {
+    id: 'words',
+    title: 'Слова',
+    pic: '🏰',
+    levels: ['РО-ЗА', 'КО-РО-НА', 'ЗА-МОК', 'А-РИ-ЭЛЬ', 'КО-ТЁ-НОК', 'ПО-ДА-РОК'],
+  },
   {
     id: 'phrases',
     title: 'Фразы',
@@ -329,7 +475,7 @@ export function allUtterances(): string[] {
   PHRASES.flat().forEach((p) => addSentence(p.text))
   STORIES.forEach((s) => {
     s.pages.forEach((p) => addSentence(p.text))
-    add(s.ask)
+    s.questions.forEach((q) => add(q.ask))
   })
   add(PRAISE)
   return [...out]
@@ -344,9 +490,20 @@ export type Task =
   | { kind: 'phrase'; words: string[]; answer: string; options: string[] }
   | { kind: 'page'; words: string[]; pic: string }
   | { kind: 'question'; text: string; answer: string; options: string[] }
+  /** собрать слово из слогов (или фразу из слов) по картинке; parts — в верном порядке */
+  | { kind: 'build'; parts: string[]; pic: string; phrase: boolean }
+  /** картинка → выбрать написанное слово */
+  | { kind: 'pickWord'; pic: string; answer: string; options: string[] }
+  /** фраза с пропуском (gap — номер слова) и картинка-подсказка */
+  | { kind: 'gap'; words: string[]; gap: number; pic: string; options: string[] }
+  /** подходит ли картинка к фразе: answer — YES или NO */
+  | { kind: 'yesNo'; words: string[]; pic: string; answer: string }
 
 // занятие: 8 заданий ≈ 5 минут
 const SESSION = 8
+
+export const YES = '👍'
+export const NO = '👎'
 
 function shuffle<T>(items: T[]): T[] {
   const r = [...items]
@@ -389,23 +546,65 @@ function syllableTasks(level: number): Task[] {
   return [...docks, ...quizzes]
 }
 
-function wordTasks(level: number): Task[] {
-  const pics = WORDS.flat().map((w) => w.pic)
-  return shuffle(WORDS[level])
-    .slice(0, SESSION)
-    .map((w) => ({ kind: 'word', syl: w.syl, answer: w.pic, options: withDistractors(w.pic, pics) }))
+// Части для сборки — перемешанные, но не в верном порядке (иначе собирать нечего).
+export function scramble(parts: string[]): string[] {
+  if (new Set(parts).size < 2) return parts
+  for (;;) {
+    const r = shuffle(parts)
+    if (r.join('|') !== parts.join('|')) return r
+  }
 }
 
-function phraseTasks(level: number): Task[] {
-  const pics = PHRASES[level].map((p) => p.pic)
-  return shuffle(PHRASES[level])
+// Виды заданий чередуются: прочитать → картинка, собрать по слогам, картинка → найти слово.
+const WORD_KINDS = ['word', 'build', 'pickWord'] as const
+
+function wordTasks(level: number): Task[] {
+  const pics = WORDS.flat().map((w) => w.pic)
+  const words = WORDS[level].map((w) => w.syl.join(''))
+  return shuffle(WORDS[level])
     .slice(0, SESSION)
-    .map((p) => ({
-      kind: 'phrase',
-      words: p.text.split(' '),
-      answer: p.pic,
-      options: p.wrong ? shuffle([p.pic, ...p.wrong]) : withDistractors(p.pic, pics),
-    }))
+    .map((w, k): Task => {
+      const kind = WORD_KINDS[k % WORD_KINDS.length]
+      const word = w.syl.join('')
+      if (kind === 'build') {
+        // односложное слово собирается по буквам
+        const parts = w.syl.length > 1 ? w.syl : [...word]
+        return { kind: 'build', parts, pic: w.pic, phrase: false }
+      }
+      if (kind === 'pickWord')
+        return { kind: 'pickWord', pic: w.pic, answer: word, options: withDistractors(word, words) }
+      return { kind: 'word', syl: w.syl, answer: w.pic, options: withDistractors(w.pic, pics) }
+    })
+}
+
+// Виды заданий чередуются: фраза → картинка, пропущенное слово, «да или нет», собрать фразу.
+// Собирать даём фразы до 6 слов — длиннее ребёнку не удержать; вместо них обычное чтение.
+const PHRASE_KINDS = ['phrase', 'gap', 'yesNo', 'build'] as const
+const MAX_BUILD_WORDS = 6
+
+function phraseTasks(level: number): Task[] {
+  const items = PHRASES[level]
+  const pics = items.map((p) => p.pic)
+  // пропуск — последнее слово (обычно предмет или место); варианты — последние слова других фраз
+  const lastWords = items.map((p) => p.text.split(' ').pop()!)
+  return shuffle(items)
+    .slice(0, SESSION)
+    .map((p, k): Task => {
+      const words = p.text.split(' ')
+      let kind: (typeof PHRASE_KINDS)[number] = PHRASE_KINDS[k % PHRASE_KINDS.length]
+      if (kind === 'build' && words.length > MAX_BUILD_WORDS) kind = 'phrase'
+      const wrongPics = p.wrong ?? pics.filter((x) => x !== p.pic)
+      if (kind === 'gap') {
+        const gap = words.length - 1
+        return { kind: 'gap', words, gap, pic: p.pic, options: withDistractors(words[gap], lastWords) }
+      }
+      if (kind === 'yesNo') {
+        const yes = Math.random() < 0.5
+        return { kind: 'yesNo', words, pic: yes ? p.pic : shuffle(wrongPics)[0], answer: yes ? YES : NO }
+      }
+      if (kind === 'build') return { kind: 'build', parts: words, pic: p.pic, phrase: true }
+      return { kind: 'phrase', words, answer: p.pic, options: shuffle([p.pic, ...shuffle(wrongPics).slice(0, 2)]) }
+    })
 }
 
 // история читается по порядку, без перемешивания
@@ -413,7 +612,12 @@ function storyTasks(level: number): Task[] {
   const s = STORIES[level]
   return [
     ...s.pages.map((p): Task => ({ kind: 'page', words: p.text.split(' '), pic: p.pic })),
-    { kind: 'question', text: s.ask, answer: s.answer, options: shuffle([s.answer, ...s.wrong]) },
+    ...s.questions.map((q): Task => ({
+      kind: 'question',
+      text: q.ask,
+      answer: q.answer,
+      options: shuffle([q.answer, ...q.wrong]),
+    })),
   ]
 }
 

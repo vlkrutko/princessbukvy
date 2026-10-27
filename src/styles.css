@@ -348,6 +348,37 @@ h2 {
   animation: pop 0.45s ease-out;
 }
 
+/* пустое место под слог или слово при сборке и в фразе с пропуском */
+.tile.slot {
+  background: transparent;
+  box-shadow: none;
+  border: 0.6vmin dashed rgba(255, 255, 255, 0.45);
+}
+
+.tile.sm.slot {
+  min-width: 18vmin;
+}
+
+.tile.slot.filled {
+  background: var(--card);
+  border-color: transparent;
+}
+
+.tile.gone {
+  visibility: hidden;
+}
+
+.shake {
+  animation: shake 0.35s;
+}
+
+/* варианты-слова: мельче, чтобы три длинных слова влезли */
+.choices.words .choice {
+  min-width: 0;
+  height: 17vmin;
+  font-size: 9vmin;
+}
+
 .choice.wrong {
   opacity: 0.3;
   animation: shake 0.35s;
